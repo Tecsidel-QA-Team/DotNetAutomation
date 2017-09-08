@@ -15,16 +15,14 @@ namespace AUSA
     public class ausaModificarPartes : AusaFieldsConfiguration
     {
 
-        // 'ausaModificarPartes.mPartes' oculta el miembro heredado 'ausaFieldsConfiguration.mPartes'. Use la palabra clave new si su intención era ocultarlo.
         public static new string mPartes;
-        // 'ausaModificarPartes.mPartes' oculta el miembro heredado 'ausaFieldsConfiguration.mPartes'. Use la palabra clave new si su intención era ocultarlo.
         public static int i;
         public static int xll;
         public static int selComp;
         public static string compT;
 
 
-    [TestInitialize]
+        [TestInitialize]
         public void setUp()
         {
 
@@ -32,8 +30,8 @@ namespace AUSA
             driver.Manage().Window.Maximize();
 
         }
-     
-    [TestMethod]
+
+        [TestMethod]
         public void ausaIssuesUpdate()
         {
             try
@@ -46,12 +44,14 @@ namespace AUSA
                     return;
                 }
                 System.Threading.Thread.Sleep(2000);
-                takeScreenShot("ausaLoginPage.jpeg");
+                takeScreenShot("E:\\Selenium\\", "ausaLoginPage_", timet);
+                takeScreenShot("E:\\workspace\\Pilar_Repository\\ausaModificaPartes\\attachments\\", "ausaLoginPage", "");                
                 driver.FindElement(By.Id("BoxLogin")).SendKeys("calidad");
                 driver.FindElement(By.Id("BoxPassword")).SendKeys("calidad");
                 driver.FindElement(By.Id("BtnLogin")).Click();
                 System.Threading.Thread.Sleep(3000);
-                takeScreenShot("AusamP.jpeg");
+                takeScreenShot("E:\\Selenium\\", "AusamP", timet);
+                takeScreenShot("E:\\workspace\\Pilar_Repository\\ausaModificaPartes\\attachments\\", "AusamP", "");                
                 string lPartes = driver.FindElement(By.XPath("//div[7] / div / ul / li[5] / a")).Text;
                 System.Threading.Thread.Sleep(1000);
                 IWebElement Partes = driver.FindElement(By.LinkText(lPartes));
@@ -60,8 +60,8 @@ namespace AUSA
                 string mPartes = driver.FindElement(By.XPath("// div[7] / div / ul / li[5] / ul / li / a")).Text;
                 driver.FindElement(By.LinkText(mPartes)).Click();
                 System.Threading.Thread.Sleep(8000);
-                takeScreenShot("AusapP.jpeg");
-
+                takeScreenShot("E:\\Selenium\\", "AusaP", timet);
+                takeScreenShot("E:\\workspace\\Pilar_Repository\\ausaModificaPartes\\attachments\\", "AusaP", "");
                 if (lPartes.Equals("Issues"))
                 {
                     Types = "All";
@@ -107,7 +107,7 @@ namespace AUSA
                 return;
             }
         }
-        
+
         public static void BuscarElement()
         {
             System.Threading.Thread.Sleep(1000);
@@ -135,7 +135,7 @@ namespace AUSA
             driver.FindElement(By.Id("ctl00_ButtonsZone_BtnSave_IB_Label")).Click();
             System.Threading.Thread.Sleep(1000);
         }
-        
+
 
         public static void updatePartes()
         {
@@ -249,7 +249,7 @@ namespace AUSA
             System.Threading.Thread.Sleep(2000);
         }
 
-        
+
         public static void infoComponents()
         {
             System.Threading.Thread.Sleep(3000);
@@ -259,86 +259,49 @@ namespace AUSA
                 selComp = ranNumbr(1, infoComp.Count);
             }
             compT = driver.FindElement(By.XPath("//div" + "[" + selComp + "]/a/div/span[contains(@id,'ctl00_ContentZone_BtnAdd')]")).GetAttribute("class");
-            //compT = "IB_weather";
-    /*        switch (compT)
-            {
-                case "IB_comunication":
-                    System.Threading.Thread.Sleep(1000);
-// El tipo o el nombre del espacio de nombres 'communicationCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.communicationCompScreen.ibCommunication();
-// El tipo o el nombre del espacio de nombres 'communicationCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_vehicle":
-                    System.Threading.Thread.Sleep(1000);
-// El tipo o el nombre del espacio de nombres 'vehicleCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.vehicleCompScreen.ibVehicle();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'vehicleCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_person":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'personCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.personCompScreen.ibPerson();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'personCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_patrol":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'patrolCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.patrolCompScreen.ibPatrol();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'patrolCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_security":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'securityCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.securityCompScreen.ibSecurity();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'securityCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_ambulance":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'ambulanceCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.ambulanceCompScreen.ibAmbulance();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'ambulanceCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_crane":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'craneCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.craneCompScreen.ibCrane();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'craneCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_weather":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'weatherCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.weatherCompScreen.ibWeather();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'weatherCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_trafic":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'trafficCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.trafficCompScreen.ibTraffic();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'trafficCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_roadway":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'calzadaCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.calzadaCompScreen.ibCalzada();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'calzadaCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_insideInformation":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'infoCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.infoCompScreen.ibInformation();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'infoCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                case "IB_inconvenientShedule":
-                    System.Threading.Thread.Sleep(1000);
-#pragma warning disable CS0234 // El tipo o el nombre del espacio de nombres 'inconCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    AUSA.inconCompScreen.ibInconveniente();
-#pragma warning restore CS0234 // El tipo o el nombre del espacio de nombres 'inconCompScreen' no existe en el espacio de nombres 'AUSA' (¿falta alguna referencia de ensamblado?)
-                    break;
-                default:
-                    Console.WriteLine(compT + " No está implementado");
-                    break;
-            }
-            */
+            compT = "IB_weather";
+            switch (compT)
+                    {
+                        case "IB_comunication":                             System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.communicationCompScreen.ibCommunication();
+                                                                            break;
+                        case "IB_vehicle":                                  System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.vehicleCompScreen.ibVehicle();
+                                                                            break;
+                        case "IB_person":                                   System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.personCompScreen.ibPerson();
+                                                                            break;
+                        case "IB_patrol":                                   System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.patrolCompScreen.ibPatrol();
+                                                                            break;
+                        case "IB_security":                                 System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.securityCompScreen.ibSecurity();
+                                                                            break;
+                        case "IB_ambulance":                                System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.ambulanceCompScreen.ibAmbulance();
+                                                                            break;
+                        case "IB_crane":                                    System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.craneCompScreen.ibCrane();
+                                                                            break;
+                        case "IB_weather":                                  System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.weatherCompScreen.ibWeather();
+                                                                            break;
+                        case "IB_trafic":                                   System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.trafficCompScreen.ibTraffic();
+                                                                            break;
+                        case "IB_roadway":                                  System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.calzadaCompScreen.ibCalzada();
+                                                                            break;
+                        case "IB_insideInformation":                        System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.infoCompScreen.ibInformation();
+                                                                            break;
+                        case "IB_inconvenientShedule":                      System.Threading.Thread.Sleep(1000);
+                                                                            AUSA.inconCompScreen.ibInconveniente();
+                                                                            break;
+                        default:                                            Console.WriteLine(compT + " No está implementado");
+                                                                            break;
+                    }
+                    
 
         }
 
@@ -362,8 +325,8 @@ namespace AUSA
 
 
 
-    [TestCleanup]
-        public static void tearDown()
+        [TestCleanup]
+        public void tearDown()
         {
             driver.Quit();
         }
