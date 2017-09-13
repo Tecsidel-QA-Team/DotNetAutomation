@@ -15,6 +15,7 @@ namespace SENAC
         public static string NIF_STRING_ASOCIATION = "TRWAGMYFPDXBNJZSQVHLCKE";
         public static int delm;
         public static string caMe;
+        public static string nextPTitle;
         public static string acam;
         public static string fileDatafilled;
         public static int ad;
