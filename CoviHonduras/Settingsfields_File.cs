@@ -12,6 +12,7 @@ namespace CoviHonduras
 {
     public class Settingsfields_File
     {
+        public static string dateverTransacciones;
         public static string BoHostUrl = "http://virtualbo-qa/BOQAHostCoviHonduras/web/forms/core/login.aspx";
         public static string BoPlazaUrl = "http://virtualbo-qa/BOQAPlazaCoviHonduras/web/forms/core/login.aspx";
         public static string RUCid = "ctl00_ContentZone_ctrlAccountData_txt_RUC_box_data";
