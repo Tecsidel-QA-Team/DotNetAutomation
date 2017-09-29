@@ -16,7 +16,8 @@ namespace SENAC
         private static string[] promoSel = { "En función de recarga", "En función de tránsitos", "En función del horario" };
         private static Actions action;
         private static int dateMFrom;
-        private static int dateFrom;
+        private static string dateFrom;
+        private static int dateFro;
         private static int dateMFromR;
         private static int linkSel;
         private static string errorText;
@@ -48,7 +49,7 @@ namespace SENAC
 					}else{
 						dateMFromR = dateMFrom;
 					}
-                dateFrom = dateMFromR + 1;
+                dateFro = dateMFromR + 1;
                 takeScreenShot("E:\\Selenium\\","homepageSenac_",timet);
                 takeScreenShot("E:\\workspace\\Mavi_Repository\\telecargas_Promociones\\attachments\\","homepageSenac","");
                 System.Threading.Thread.Sleep(1000);
@@ -85,7 +86,15 @@ namespace SENAC
             //takeScreenShot("E:\\workspace\\Mavi_Repository\\telecargas_Promociones\\attachments\\","promoenFuncionRecargaCreate","");
             driver.FindElement(By.Id("ctl00_ContentZone_txtNom_box_data")).SendKeys("PROMO_"+dateS [dateMFromR]);
             System.Threading.Thread.Sleep(1000);
-            int dateFrom = dateMFromR + 1;
+            dateFro = dateMFromR + 1;            
+            if (dateFro < 10)
+            {
+                dateFrom = "0" + dateFro;
+            }
+            else
+            {
+                dateFrom = ""+dateFro;
+            }
             driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).Clear();
             driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).SendKeys(dateSel(new DateTime(2017, 1, 1), new DateTime(2018, 12, 31)).ToString("dd/"+ dateFrom + "/yyyy"));
             System.Threading.Thread.Sleep(1000);
@@ -151,6 +160,15 @@ namespace SENAC
             //takeScreenShot("E:\\workspace\\Mavi_Repository\\telecargas_Promoiones\\attachments\\","promoenFuncionTransitoCreate","");
             driver.FindElement(By.Id("ctl00_ContentZone_txtNom_box_data")).SendKeys("PROMO_"+dateS [dateMFromR]);
             System.Threading.Thread.Sleep(500);
+            dateFro = dateMFromR + 1;
+            if (dateFro < 10)
+            {
+                dateFrom = "0" + dateFro;
+            }
+            else
+            {
+                dateFrom = "" + dateFro;
+            }
             driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).Clear();
             driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).SendKeys(dateSel(new DateTime(2017, 1, 1), new DateTime(2018, 12, 31)).ToString("dd/"+ dateFrom + "/yyyy"));
             System.Threading.Thread.Sleep(500);
@@ -179,8 +197,8 @@ namespace SENAC
             System.Threading.Thread.Sleep(1000);
             //takeScreenShot("E:\\Selenium\\","promoenFuncionTransitoCreateFillData_",timet);
             //takeScreenShot("E:\\workspace\\Mavi_Repository\\telecargas_Promociones\\attachments\\","promoenFuncionTransitoCreateFillData","");
-            //elementClick("ctl00_ButtonsZone_BtnSubmit");
-            action.Click(driver.FindElement(By.Id("ctl00_ButtonsZone_BtnSubmit"))).Build().Perform();
+            elementClick("ctl00_ButtonsZone_BtnSubmit");
+            //action.Click(driver.FindElement(By.Id("ctl00_ButtonsZone_BtnSubmit"))).Build().Perform();
             System.Threading.Thread.Sleep(3000);
 			if (isAlertPresent()){
                 errorText = driver.SwitchTo().Alert().Text;
@@ -215,8 +233,18 @@ namespace SENAC
             //takeScreenShot("E:\\workspace\\Mavi_Repository\\telecargas_Promociones\\attachments\\","promoenFuncionhorarioCreate","");
             driver.FindElement(By.Id("ctl00_ContentZone_txtNom_box_data")).SendKeys("PROMO_"+dateS [dateMFromR]);
             System.Threading.Thread.Sleep(500);
+
+            dateFro = dateMFromR + 1;
+            if (dateFro < 10)
+            {
+                dateFrom = "0" + dateFro;
+            }
+            else
+            {
+                dateFrom = "" + dateFro;
+            }
             driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).Clear();
-            driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).SendKeys(dateSel(new DateTime(2017, dateMFromR+1, 1), new DateTime(2018, 12, 31)).ToString("dd/"+ dateFrom + "/yyyy"));
+            driver.FindElement(By.Id("ctl00_ContentZone_dtmfrom_box_date")).SendKeys(dateSel(new DateTime(2017, dateMFromR+1, 1), new DateTime(2018, 12, 31)).ToString("dd/"+dateFrom+"/yyyy"));
             System.Threading.Thread.Sleep(1000);
             driver.FindElement(By.Id("ctl00_ContentZone_dtmTo_box_date")).Clear();
             driver.FindElement(By.Id("ctl00_ContentZone_dtmTo_box_date")).SendKeys(dateSel(new DateTime(2017, 1, 1), new DateTime(2018, 12, 31)).ToString("dd/MM/yyyy"));
