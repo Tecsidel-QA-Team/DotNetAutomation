@@ -7,7 +7,7 @@ using OpenQA.Selenium.Interactions;
 namespace CoviHonduras
 {
     [TestClass]
-    public class CAC_LiquidacionParcial : Settingsfields_File
+    public class BOPlaza_LiquidacionParcial : Settingsfields_File
     {
         
         [TestInitialize]
@@ -18,24 +18,24 @@ namespace CoviHonduras
 
         }
         [TestMethod]
-        public void accountLiquidacionParcialInit() 
+        public void plazaAccountLiquidacionParcialInit() 
         {
             System.Threading.Thread.Sleep(1000);
-            borrarArchivosTemp("E:\\workspace\\Maria_Repository\\accountClose\\attachments\\");
-            accountLiquidacionParcial();
+            borrarArchivosTemp("E:\\workspace\\Maria_Repository\\LiquidaciónParcial\\attachments\\");
+            plazaAccountLiquidacionParcial();
             System.Threading.Thread.Sleep(1000);	
 		    Console.WriteLine("Se ha cerrado una Liquidación Parcial correctamente");
         }
 
-        public static void accountLiquidacionParcial()
+        public static void plazaAccountLiquidacionParcial()
         {
             Actions action = new Actions(driver);
-            driver.Navigate().GoToUrl(CaCUrl);
-            takeScreenShot("E:\\Selenium\\", "loginCACCVHPage", timet + ".jpeg");
-            takeScreenShot("E:\\workspace\\Maria_Repository\\LiquidacionParcial\\attachments\\", "loginCACCVHPage", ".jpeg");
+            driver.Navigate().GoToUrl(BoPlazaUrl);
+            takeScreenShot("E:\\Selenium\\", "loginBOPlazaCVHPage", timet + ".jpeg");
+            takeScreenShot("E:\\workspace\\Maria_Repository\\LiquidacionParcial\\attachments\\", "loginBOPlazaCVHPage", ".jpeg");
             loginPage("00001", "00001");
-            takeScreenShot("E:\\Selenium\\", "homeCACCVHPage", timet + ".jpeg");
-            takeScreenShot("E:\\workspace\\Maria_Repository\\LiquidaciónParcial\\attachments\\", "homeCACCVHPage", ".jpeg");
+            takeScreenShot("E:\\Selenium\\", "homeBOPlazaCVHPage", timet + ".jpeg");
+            takeScreenShot("E:\\workspace\\Maria_Repository\\LiquidaciónParcial\\attachments\\", "homeBOPlazaCVHPage", ".jpeg");
             BOVersion = driver.FindElement(By.Id("ctl00_statusRight")).Text;
             System.Threading.Thread.Sleep(2000);
             action.ClickAndHold(driver.FindElement(By.LinkText("Gestión de cobrador"))).Build().Perform();
