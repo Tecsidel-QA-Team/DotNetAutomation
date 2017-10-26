@@ -8,6 +8,8 @@ namespace CoviHonduras
     [TestClass]
     public class MCS_cambiarModoMarquesina : Settingsfields_File
     {
+        private static string ModoMar;
+
         [TestInitialize]
         public void setUp()
         {
@@ -39,13 +41,15 @@ namespace CoviHonduras
                 System.Threading.Thread.Sleep(600);
                 driver.FindElement(By.LinkText("Cambiar señal de marquesina")).Click();
                 System.Threading.Thread.Sleep(600);
-                if (ranNumbr(0, 1) == 1)
+                if (ranNumbr(0, 1) == 0)
                 {
-                    driver.FindElement(By.LinkText("Aspa")).Click();
+                    ModoMar = "Aspa";
+                    driver.FindElement(By.LinkText(ModoMar)).Click();
                 }
                 else
                 {
-                    driver.FindElement(By.LinkText("Flecha")).Click();
+                    ModoMar = "Flecha";
+                    driver.FindElement(By.LinkText(ModoMar)).Click();
                 }
                 if (isAlertPresent())
                 {
@@ -61,21 +65,13 @@ namespace CoviHonduras
                     Assert.Fail(errormessage);
                     return;
                 }
-                /*Thread.sleep(500);
-		            new Select(driver.findElement(By.id("cbDia1"))).selectByVisibleText("01");
-                    new Select(driver.findElement(By.id("cbMes1"))).selectByVisibleText("ene");
-                    selectDropDown("cmb_type");
-                    Thread.sleep(1000);		
-		            driver.findElement(By.id("btn_search")).click();
-                    Thread.sleep(2000);
-                    takeScreenShot("E:\\Selenium\\","cerrarViaResults"+timet+".jpg");
-                    takeScreenShot("E:\\workspace\\Maria_Repository\\MCS_application\\attachments\\","cerrarViaResults.jpg");
-                    Thread.sleep(1000);
-		            String elementsFound = driver.findElement(By.id("lbl_showing")).getText();
-                    Thread.sleep(1500);
-		            System.out.println("Busqueda Completa: "+ elementsFound);
-                    System.out.println("Pruebas hechas en la versión del MCS de CoviHonduras: "+mcsVer);
-                    Thread.sleep(1000);	*/
+                System.Threading.Thread.Sleep(1000);
+                string confirmMessage = driver.FindElement(By.Id("lbl_message")).Text;
+                takeScreenShot("E:\\Selenium\\", "cambiarMarquesinaResults" , timet + ".jpeg");
+                takeScreenShot("E:\\workspace\\Maria_Repository\\MCS_application\\attachments\\", "cambiarMarquesinaResults",".jpeg");
+                Console.WriteLine(operationWindow + ": " + confirmMessage + " " + ModoMar);
+                Console.WriteLine("Pruebas hechas en la versión del MCS de CoviHonduras: " + mcsVer);
+                System.Threading.Thread.Sleep(1000);
             }
             catch (Exception e)
             {
@@ -91,7 +87,7 @@ namespace CoviHonduras
                 driver.SwitchTo().Alert();
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

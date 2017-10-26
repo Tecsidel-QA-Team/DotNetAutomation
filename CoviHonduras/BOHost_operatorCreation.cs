@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 
 namespace CoviHonduras
 {
@@ -14,6 +15,11 @@ namespace CoviHonduras
         private static string lastcreated;
         private static IWebElement tableResult;
         private static IList<IWebElement> userResults;
+        public static string enviarViaVer;
+        public static int i;
+        private static SqlConnection connection;
+        private static string[] transactionsOp = new string[2];
+        private static List<string> transactionsOps = new List<string>();
 
         [TestInitialize]
         public void setUp()
@@ -89,11 +95,11 @@ namespace CoviHonduras
                 driver.FindElement(By.Id("ctl00_ContentZone_password2_box_data")).SendKeys("00001");
                 System.Threading.Thread.Sleep(5000);
                 takeScreenShot("E:\\Selenium\\","allfilleddata",timet+".jpeg");
-                takeScreenShot("E:\\workspace\\Maria_Repository\\BOHost_crearOperadores\\\attachments\\", "allfilleddata",".jpeg");
+                takeScreenShot("E:\\workspace\\Maria_Repository\\BOHost_crearOperadores\\attachments\\", "allfilleddata",".jpeg");
                 elementClick("ctl00_ButtonsZone_BtnSubmit_IB_Label");
                 System.Threading.Thread.Sleep(2000);
                 takeScreenShot("E:\\Selenium\\","userCreated",timet+".jpeg");
-                takeScreenShot("E:\\workspace\\Maria_Repository\\BOHost_crearOperadores\\\attachments\\", "userCreated",".jpeg");
+                takeScreenShot("E:\\workspace\\Maria_Repository\\BOHost_crearOperadores\\attachments\\", "userCreated",".jpeg");
                 tableResult = driver.FindElement(By.Id("ctl00_ContentZone_TblResults"));
 		        userResults = tableResult.FindElements(By.TagName("tr"));
 		        if (userResults.Count>15){
@@ -102,26 +108,80 @@ namespace CoviHonduras
 			        tableResult = driver.FindElement(By.Id("ctl00_ContentZone_TblResults"));
 			        userResults = tableResult.FindElements(By.TagName("tr"));
 		        }
-		        for (int i = 1; i <= userResults.Count; i++){
-				    if (i == userResults.Count){
-					    lastcreated = driver.FindElement(By.XPath("//table[@id='ctl00_ContentZone_TblResults']/tbody/tr["+i+"]/td[2]")).Text;
+		        for (int x = 1; x <= userResults.Count; x++){
+				    if (x == userResults.Count){
+					    lastcreated = driver.FindElement(By.XPath("//table[@id='ctl00_ContentZone_TblResults']/tbody/tr["+x+"]/td[2]")).Text;
 			        }	
 		        }
+                elementClick("ctl00_ButtonsZone_BtnDownload_IB_Label");
+                if (isAlertPresent())
+                {
+                    driver.SwitchTo().Alert().Accept();
+                }
+                System.Threading.Thread.Sleep(5000);
+                string enviarViaLbl = driver.FindElement(By.Id("ctl00_LblError")).Text;
+                if (enviarViaLbl.Contains("OK"))
+                {
+                    enviarViaVer = enviarViaLbl.Substring(41).Replace("'", "");
+                    Console.WriteLine("La telecarga de Operadores se ha enviado a Vía con la versión "+enviarViaVer);
+                }
+                else
+                {
+                    Assert.Fail("Hay un error en envair telecargas a vía");
+                }
                 elementClick("ctl00_BtnLogOut");
                 System.Threading.Thread.Sleep(500);
 		        driver.SwitchTo().Alert().Accept();
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(5000);
                 loginPage(lastcreated, "00001");
 		        takeScreenShot("E:\\Selenium\\","userCreatedscreenHome",timet+".jpeg");
                 takeScreenShot("E:\\workspace\\Maria_Repository\\BOHost_crearOperadores\\attachments\\","userCreatedscreenHome",".jpeg");
                 Console.WriteLine("Se ha Creado el operador "+lastcreated+" con la contraseaña: 00001"+ " en el grupo de "+operatorG.Substring(04));
-		        Console.Write("Se ha probado en la versión del BO Host: " + BOVersion.Substring(1,16)+" y Host Manager: "+BOVersion.Substring(17));
-	        }catch(Exception e){
-                Console.WriteLine(e.GetBaseException());
+		        Console.WriteLine("Se ha probado en la versión del BO Host: " + BOVersion.Substring(1,15)+" y Host Manager: "+BOVersion.Substring(18));
+                System.Threading.Thread.Sleep(90000);
+                string connectionUrlPlaza = "Data Source=172.18.130.188;Initial Catalog=COVIHONDURAS_QA_TOLLPLAZA; user id=sa;password=lediscet;";
+                connection = new SqlConnection();
+                connection.ConnectionString = connectionUrlPlaza;
+                connection.Open();
+                SqlCommand query = new SqlCommand("select version, filename from dbo.atable where tabletype='operators' and version='" + enviarViaVer + "'", connection);
+                SqlDataReader queryReader = query.ExecuteReader();
+                int i = 0;
+                while (queryReader.Read())
+                {
+                    for (i = 0; i < 2; i++)
+                    {
+                        transactionsOp[0] = Convert.ToString(queryReader["version"]);
+                        transactionsOp[1] = Convert.ToString(queryReader["filename"]);
+                        transactionsOps.Add(transactionsOp[i]);
+
+                    }
+                }
+                if (transactionsOp[0] == null)
+                {
+                    Assert.Fail("La Telecarga de Operadores no ha bajado a Plaza");
+                }
+                else
+                {
+                    Console.WriteLine("La telecarga de operadores con la version: " + transactionsOps[0] + " ha bajado a la plaza con el nombre de archivo: " + transactionsOps[1]);
+                }
+
+            }
+            catch(Exception e){
+                Console.WriteLine(e.Message);
                 Assert.Fail();
 	        }
-        }		
-        
+        }
+        public static bool isAlertPresent()
+        {
+            try {
+                driver.SwitchTo().Alert();
+                return true;
+            } catch (Exception)
+            {
+                return false;
+            }
+        }
+
         [TestCleanup]
         public void tearDown()
         {

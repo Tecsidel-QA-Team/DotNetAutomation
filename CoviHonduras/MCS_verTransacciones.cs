@@ -21,7 +21,7 @@ namespace CoviHonduras
         { 
             borrarArchivosTemp("E:\\workspace\\Maria_Repository\\MCS_alarmaBusqueda\\attachments\\");
 	        try{
-		        driver.Navigate().GoToUrl(MCSUrl);
+		        driver.Navigate().GoToUrl(MCSUrl);                
 		        System.Threading.Thread.Sleep(1000);
                 takeScreenShot("E:\\Selenium\\","loginMCSCVHPage",timet+".jpeg");
                 takeScreenShot("E:\\workspace\\Maria_Repository\\MCS_verTransacciones\\attachments\\","loginMCSCVHPage",".jpeg");
